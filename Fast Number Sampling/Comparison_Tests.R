@@ -30,8 +30,8 @@ microbenchmark(
   runif_floats = runif(100000, min = 0, max = 1),
   rnorm_normal = rnorm(100000),
   sample_replace = sample(1:100000, 100000, replace = TRUE),
-  random_values_weights <- generateRandomNumbers(size = 100000, weights = weight_numbers),
-  random_values_no_weights <- generateRandomNumbers(size = 100000,),
+  random_values_weights = generateRandomNumbers(size = 100000, weights = weight_numbers),
+  random_values_no_weights = generateRandomNumbers(size = 100000,),
   times = 1000
 )
 
