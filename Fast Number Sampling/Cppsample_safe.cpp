@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-IntegerVector rcpp_sample(IntegerVector x, int size, NumericVector prob = NumericVector()) {
+IntegerVector rcpp_sample_safe(IntegerVector x, int size, NumericVector prob = NumericVector()) {
   int n = x.size();
   IntegerVector out(size);
 

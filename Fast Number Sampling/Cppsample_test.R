@@ -11,8 +11,10 @@ wd.cur <- tryCatch(expr = dirname(rstudioapi::getSourceEditorContext()$path),
 
 
 function_file <- paste0(wd.cur,"/Cppsample.cpp")
+function_file_safe <- paste0(wd.cur,"/Cppsample_safe.cpp")
 # Source the C++ code
 sourceCpp(function_file)
+sourceCpp(function_file_safe)
 
 set.seed(42)
 x <- 1:10
@@ -29,23 +31,18 @@ print(sample_with_probs)
 
 
 set.seed(42)
-x <- 1:1000
-probs <- runif(1000)  # Random probabilities for each element
-size <- 500
+x <- 1:10000
+probs <- runif(10000)  # Random probabilities for each element
+size <- 5000
 
-# Benchmark the rcpp_sample function
-benchmark_rcpp <- microbenchmark(
-  rcpp_sample(x, size = size, prob = probs),
-  times = 100
-)
 
 # Benchmark the sample function in R
 benchmark_r_sample <- microbenchmark(
   original = sample(x, size, replace = TRUE, prob = probs),
   new = rcpp_sample(x, size = size, prob = probs),
-  times = 100
+  new_safe = rcpp_sample_safe(x, size = size, prob = probs),
+  times = 1000
 )
 
-# Print the results
-print(benchmark_rcpp)
+
 print(benchmark_r_sample)
