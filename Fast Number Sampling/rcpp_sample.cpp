@@ -1,27 +1,28 @@
 #include <Rcpp.h>
 #include <random>
+
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-IntegerVector rcpp_sample_safe(IntegerVector x, int size, NumericVector prob = NumericVector()) {
+IntegerVector rcpp_sample(IntegerVector x, int size, NumericVector prob = NumericVector()) {
   int n = x.size();
   IntegerVector out(size);
-
+  
   if (n == 0) {
     stop("Input vector 'x' should not be empty.");
   }
-
+  
   if (size < 0) {
     stop("Invalid sample size. It should be a non-negative value.");
   }
-
+  
   if (prob.size() != 0 && prob.size() != n) {
     stop("Length of 'prob' vector should match the length of 'x' or be empty.");
   }
-
+  
   std::random_device rd;
   std::mt19937 gen(rd());
-
+  
   try {
     if (prob.size() == 0) {
       std::uniform_int_distribution<> dis(0, n - 1);
@@ -38,6 +39,6 @@ IntegerVector rcpp_sample_safe(IntegerVector x, int size, NumericVector prob = N
   } catch (const std::out_of_range& e) {
     stop("Out of range error occurred during sampling.");
   }
-
+  
   return out;
 }
